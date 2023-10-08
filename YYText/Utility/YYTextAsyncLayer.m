@@ -156,9 +156,6 @@ static dispatch_queue_t YYTextAsyncLayerGetReleaseQueue() {
                 return;
             }
             
-            if(size.width <= 0) size.width = 1;
-            if(size.height <= 0) size.height = 1;
-
             UIGraphicsBeginImageContextWithOptions(size, opaque, scale);
             CGContextRef context = UIGraphicsGetCurrentContext();
             if (opaque && context) {
