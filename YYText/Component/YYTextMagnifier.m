@@ -89,6 +89,9 @@
         CGRect rect = (CGRect) {.size = size, .origin = CGPointZero};
         rect = CGRectInset(rect, kPadding, kPadding);
         
+        if(size.width <= 0) size.width = 1;
+        if(size.height <= 0) size.height = 1;
+
         UIGraphicsBeginImageContextWithOptions(size, NO, 0);
         CGContextRef context = UIGraphicsGetCurrentContext();
         
@@ -237,6 +240,9 @@
         CGSize size = kSize;
         CGRect rect = (CGRect) {.size = size, .origin = CGPointZero};
         
+        if(size.width <= 0) size.width = 1;
+        if(size.height <= 0) size.height = 1;
+
         UIGraphicsBeginImageContextWithOptions(size, NO, 0);
         CGContextRef context = UIGraphicsGetCurrentContext();
         

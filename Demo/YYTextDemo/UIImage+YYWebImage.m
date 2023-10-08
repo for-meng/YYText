@@ -244,6 +244,9 @@ static NSTimeInterval _yy_CGImageSourceGetGIFFrameDelayAtIndex(CGImageSourceRef 
 
 + (UIImage *)yy_imageWithSize:(CGSize)size drawBlock:(void (^)(CGContextRef context))drawBlock {
     if (!drawBlock) return nil;
+    if(size.width <= 0) size.width = 1;
+    if(size.height <= 0) size.height = 1;
+
     UIGraphicsBeginImageContextWithOptions(size, NO, 0);
     CGContextRef context = UIGraphicsGetCurrentContext();
     if (!context) return nil;
@@ -337,13 +340,17 @@ static NSTimeInterval _yy_CGImageSourceGetGIFFrameDelayAtIndex(CGImageSourceRef 
 }
 
 - (UIImage *)yy_imageByRoundCornerRadius:(CGFloat)radius corners:(UIRectCorner)corners borderWidth:(CGFloat)borderWidth {
-    UIGraphicsBeginImageContextWithOptions(self.size, NO, self.scale);
+    CGSize size = self.size;
+    if(size.width <= 0) size.width = 1;
+    if(size.height <= 0) size.height = 1;
+
+    UIGraphicsBeginImageContextWithOptions(size, NO, self.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGRect rect = CGRectMake(0, 0, self.size.width, self.size.height);
+    CGRect rect = CGRectMake(0, 0, size.width, size.height);
     CGContextScaleCTM(context, 1, -1);
     CGContextTranslateCTM(context, 0, -rect.size.height);
     
-    CGFloat minSize = MIN(self.size.width, self.size.height);
+    CGFloat minSize = MIN(size.width, size.height);
     if (borderWidth < minSize / 2) {
         [[UIBezierPath bezierPathWithRoundedRect:CGRectInset(rect, borderWidth, borderWidth) byRoundingCorners:corners cornerRadii:CGSizeMake(radius, borderWidth)] addClip];
         CGContextDrawImage(context, rect, self.CGImage);
@@ -437,8 +444,12 @@ static NSTimeInterval _yy_CGImageSourceGetGIFFrameDelayAtIndex(CGImageSourceRef 
 }
 
 - (UIImage *)yy_imageByTintColor:(UIColor *)color {
-    UIGraphicsBeginImageContextWithOptions(self.size, NO, self.scale);
-    CGRect rect = CGRectMake(0, 0, self.size.width, self.size.height);
+    CGSize size = self.size;
+    if(size.width <= 0) size.width = 1;
+    if(size.height <= 0) size.height = 1;
+
+    UIGraphicsBeginImageContextWithOptions(size, NO, self.scale);
+    CGRect rect = CGRectMake(0, 0, size.width, size.height);
     [color set];
     UIRectFill(rect);
     [self drawAtPoint:CGPointMake(0, 0) blendMode:kCGBlendModeDestinationIn alpha:1];
@@ -544,6 +555,9 @@ static NSTimeInterval _yy_CGImageSourceGetGIFFrameDelayAtIndex(CGImageSourceRef 
             return nil;
         }
     } else {
+        if(size.width <= 0) size.width = 1;
+        if(size.height <= 0) size.height = 1;
+
         UIGraphicsBeginImageContextWithOptions(size, opaque, scale);
         CGContextRef effectCtx = UIGraphicsGetCurrentContext();
         CGContextScaleCTM(effectCtx, 1.0, -1.0);
@@ -667,6 +681,9 @@ static void _yy_cleanupBuffer(void *userData, void *buf_data) {
         return [UIImage imageWithCGImage:effectCGImage];
     }
     
+    if(size.width <= 0) size.width = 1;
+    if(size.height <= 0) size.height = 1;
+
     UIGraphicsBeginImageContextWithOptions(size, opaque, scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextScaleCTM(context, 1.0, -1.0);

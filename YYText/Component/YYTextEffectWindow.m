@@ -245,6 +245,8 @@
             dispatch_once(&onceToken, ^{
                 CGRect rect = mag.bounds;
                 rect.origin = CGPointZero;
+                if(rect.size.width <= 0) rect.size.width = 1;
+                if(rect.size.height <= 0) rect.size.height = 1;
                 UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0);
                 CGContextRef context = UIGraphicsGetCurrentContext();
                 [[UIColor colorWithWhite:1 alpha:0.8] set];
@@ -259,6 +261,8 @@
         return rotation;
     }
     
+    if(captureRect.size.width <= 0) captureRect.size.width = 1;
+    if(captureRect.size.height <= 0) captureRect.size.height = 1;
     UIGraphicsBeginImageContextWithOptions(captureRect.size, NO, 0);
     CGContextRef context = UIGraphicsGetCurrentContext();
     if (!context) return rotation;

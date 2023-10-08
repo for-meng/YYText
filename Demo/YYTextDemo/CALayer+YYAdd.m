@@ -16,7 +16,12 @@
 @implementation CALayer (YYAdd)
 
 - (UIImage *)snapshotImage {
-    UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.opaque, 0);
+    
+    CGSize size = self.bounds.size;
+    if(size.width <= 0) size.width = 1;
+    if(size.height <= 0) size.height = 1;
+
+    UIGraphicsBeginImageContextWithOptions(size, self.opaque, 0);
     CGContextRef context = UIGraphicsGetCurrentContext();
     [self renderInContext:context];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
